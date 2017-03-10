@@ -1,0 +1,6 @@
+framework module Pods_shortNewIOS {
+  umbrella header "Pods-shortNewIOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
