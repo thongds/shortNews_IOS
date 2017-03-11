@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "77420F33B5400A170EA96C9D9191561B9205A8AF",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "77420F33B5400A170EA96C9D9191561B9205A8AF" : 9223372036854775807,
+    "12AB92A055BE8B089A56A9348EAFE521B0D20EC7" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "19048271-FCB6-4EFF-860C-FB328467E6D4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "77420F33B5400A170EA96C9D9191561B9205A8AF" : "shortNewIOS\/",
+    "12AB92A055BE8B089A56A9348EAFE521B0D20EC7" : "shortNewIOS\/shortNewIOS.xcodeproj\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "shortNewIOS",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "shortNewIOS.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/thongds\/shortnewIOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "12AB92A055BE8B089A56A9348EAFE521B0D20EC7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/thongds\/shortNews_IOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "77420F33B5400A170EA96C9D9191561B9205A8AF"
+    }
+  ]
+}

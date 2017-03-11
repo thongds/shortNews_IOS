@@ -14,7 +14,7 @@ import AVFoundation
 private let reuseIdentifier = "Cell_NewsCollectionViewController"
 
 class NewsCollectionViewController: NewsPresent{
-    
+    let loadMoreOfset = 1
      override func viewDidLoad() {
         super.viewDidLoad()
         // set event callback
@@ -93,7 +93,7 @@ class NewsCollectionViewController: NewsPresent{
         if saveData.count > 0 {
             cell.newsResponse = saveData[indexPath.item]
             oldIndex = saveData.count
-            if indexPath.item >= saveData.count - 1 && !isLoading && !refreshView.isRefreshing {
+            if indexPath.item >= saveData.count - loadMoreOfset && !isLoading && !refreshView.isRefreshing {
                     updateLoadmoreView(showLoadmore: true)
                  //   loadData(nextPage, refresh: nil)
                 self.progressLoadData(page: nextPage, refresh: nil){

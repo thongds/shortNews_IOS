@@ -16,7 +16,7 @@ class HeaderView: UICollectionReusableView {
     let cloudImage : CustomImageAvatar = {
         let imageView = CustomImageAvatar()
         imageView.image = #imageLiteral(resourceName: "cloud_morning")
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -34,6 +34,7 @@ class HeaderView: UICollectionReusableView {
         addSubview(viewHeader)
         addConstrainView()
         
+        
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -42,14 +43,18 @@ class HeaderView: UICollectionReusableView {
         // config header constraint
         cloudImage.translatesAutoresizingMaskIntoConstraints = false
         todayLabel.translatesAutoresizingMaskIntoConstraints = false
+        eventLabel.translatesAutoresizingMaskIntoConstraints = false
         viewHeader.addSubview(cloudImage)
         viewHeader.addSubview(todayLabel)
+        viewHeader.addSubview(eventLabel)
         //make size to fix
         todayLabel.textColor = UIColor.white
-        let views = ["cloudImage" : cloudImage,"todayLabel" : todayLabel]
+        let views = ["cloudImage" : cloudImage,"todayLabel" : todayLabel,"eventLabel":eventLabel]
         let metrics = ["space" : 10,"spaceSmal" : 5 ,"cloudHeigh" : viewHeader.frame.height, "cloudWidh" : viewHeader.frame.height * 1.5]
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[cloudImage(cloudHeigh)]|", options: [], metrics: metrics, views: views))
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-space-[cloudImage(cloudWidh)]-spaceSmal-[todayLabel]|", options: [.alignAllTop,.alignAllBottom], metrics: metrics, views: views))
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-space-[cloudImage(cloudWidh)]-spaceSmal-[todayLabel]|", options: [], metrics: metrics, views: views))
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-space-[todayLabel]", options: [], metrics: metrics, views: views))
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:[todayLabel][eventLabel]|", options: [.alignAllTrailing,.alignAllLeading], metrics: metrics, views: views))
     }
     
     func updateMessage(){
@@ -61,9 +66,14 @@ class HeaderView: UICollectionReusableView {
         if let avatar = message?.avatar {
             cloudImage.loadImageForUrl((avatar))
         }
+        if let event = message?.eventMessage{
+            eventLabel.text = event
+            eventLabel.textAlignment = .center
+            eventLabel.textColor = UIColor.red
+            eventLabel.minimumScaleFactor = 10/UIFont.labelFontSize
+            eventLabel.adjustsFontSizeToFitWidth = true
+        }
         
     }
-    
-    
     
 }
