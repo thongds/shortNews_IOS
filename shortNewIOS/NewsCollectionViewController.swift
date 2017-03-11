@@ -178,30 +178,35 @@ class NewsCollectionViewController: NewsPresent{
 extension NewsCollectionViewController :  NewsLayoutDelegate {
     func collectionView(_ collectionView : UICollectionView, heightForItemAtIndexPath indexPath: IndexPath) -> CGFloat{
         if saveData.count > 0 {
-            let text = saveData[indexPath.item].post_content
-            let contentText = UILabel()
-            var isHaveVideTag : Bool = false
-            
-            if let isVideo = saveData[indexPath.item].is_video{
-                isHaveVideTag = isVideo==1 ? true : false
+            if let ads = saveData[indexPath.item].is_ads,ads{
+                return 300
+            }else{
+                let text = saveData[indexPath.item].post_content
+                let contentText = UILabel()
+                var isHaveVideTag : Bool = false
+                
+                if let isVideo = saveData[indexPath.item].is_video{
+                    isHaveVideTag = isVideo==1 ? true : false
+                }
+                //title
+                let titleText = UILabel()
+                titleText.frame = CGRect(x: 0, y: 0, width: UtilHelper.generateTitleTextMaxWidthForNewsPage(isHaveTagVideo: isHaveVideTag), height: CGFloat(MAXFLOAT))
+                titleText.text = saveData[indexPath.item].post_title
+                titleText.numberOfLines = 0
+                titleText.sizeToFit()
+                
+                //content
+                contentText.frame = CGRect(x: 0, y: 0, width: UtilHelper.generateContentTextMaxWidthForNewsPage(), height: CGFloat(MAXFLOAT))
+                contentText.text = text
+                contentText.numberOfLines = 0
+                contentText.sizeToFit()
+                
+                let leftCellContentHeight = Contraint.normalSpace.rawValue + Contraint.logoHeight.rawValue + Contraint.normalSpace.rawValue + Contraint.contentImageHeight.rawValue
+                let rightCellContentHeight = titleText.frame.height + Contraint.normalSpace.rawValue + contentText.frame.height + Contraint.normalSpace.rawValue
+                print("heightMax 1 \(max(leftCellContentHeight + Contraint.normalSpace.rawValue, rightCellContentHeight + Contraint.normalSpace.rawValue))")
+                return max(leftCellContentHeight + Contraint.normalSpace.rawValue, rightCellContentHeight + Contraint.normalSpace.rawValue)
             }
-            //title
-            let titleText = UILabel()
-            titleText.frame = CGRect(x: 0, y: 0, width: UtilHelper.generateTitleTextMaxWidthForNewsPage(isHaveTagVideo: isHaveVideTag), height: CGFloat(MAXFLOAT))
-            titleText.text = saveData[indexPath.item].post_title
-            titleText.numberOfLines = 0
-            titleText.sizeToFit()
             
-            //content
-            contentText.frame = CGRect(x: 0, y: 0, width: UtilHelper.generateContentTextMaxWidthForNewsPage(), height: CGFloat(MAXFLOAT))
-            contentText.text = text
-            contentText.numberOfLines = 0
-            contentText.sizeToFit()
-            
-            let leftCellContentHeight = Contraint.normalSpace.rawValue + Contraint.logoHeight.rawValue + Contraint.normalSpace.rawValue + Contraint.contentImageHeight.rawValue
-            let rightCellContentHeight = titleText.frame.height + Contraint.normalSpace.rawValue + contentText.frame.height + Contraint.normalSpace.rawValue
-            print("heightMax 1 \(max(leftCellContentHeight + Contraint.normalSpace.rawValue, rightCellContentHeight + Contraint.normalSpace.rawValue))")
-            return max(leftCellContentHeight + Contraint.normalSpace.rawValue, rightCellContentHeight + Contraint.normalSpace.rawValue)
         }
         return 300
     }

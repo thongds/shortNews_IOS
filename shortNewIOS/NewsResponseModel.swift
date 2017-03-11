@@ -21,7 +21,8 @@ class NewsResponseModel: BaseModel {
     var paper_logo : String?
     var paper_tag_color : String?
     var video_tag_image : String?
-
+    var is_ads : Bool?
+    var ads_code : String?
     init?(json : [String : Any]) {
         guard let postTitle = json["post_title"] as? String,
             let postContent = json["post_content"] as? String,
@@ -35,6 +36,13 @@ class NewsResponseModel: BaseModel {
             else {
                 return nil
         }
+        if let is_ads = json["is_ads"] as? Bool {
+            self.is_ads = is_ads
+            if let ads_code = ads_code{
+                self.ads_code = ads_code
+            }
+        }
+        
         self.title_color = titleColor
         self.post_title = postTitle
         self.post_content = postContent

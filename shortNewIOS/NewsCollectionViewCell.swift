@@ -16,8 +16,11 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
     var newsResponse : NewsResponseModel? {
     
         didSet{
-            print("didSet newsResponse")
-            loadDataSource()
+            if let is_ads = newsResponse?.is_ads, is_ads{
+                configAdsLayout()
+            }else{
+                loadDataSource()
+            }
         }
     }
     let imageViewThumb : CustomImage = {
@@ -49,6 +52,14 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
         imageView.clipsToBounds = true
         return imageView
     }()
+    let adsImage : CustomImage = {
+        let imageView = CustomImage()
+        imageView.image = #imageLiteral(resourceName: "default_image")
+        imageView.contentMode = .scaleToFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     let videoTagImage = CustomImage()
     func loadDataSource(){
         print("loadDataSource")
@@ -85,10 +96,10 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
             }
         }
         
-        setupWithAutoLayout()
+        setupNewsLayout()
     }
 
-    override func setupViews() {
+     func configMainViewsLayout() {
         print("setupViews")
         layer.cornerRadius = 9
         layer.masksToBounds = true
@@ -126,7 +137,13 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:[titleText]-normalSpace-[contentText]", options: [.alignAllLeading], metrics: firstMatric, views: views))
     }
     
-    func setupWithAutoLayout() {
+    func setupNewsLayout() {
+        configMainViewsLayout()
+        configTagVideoLayout()
+        //right site
+    }
+    
+    func configTagVideoLayout(){
         let yBtm = Contraint.contentImageHeight.rawValue/2 - playButtomHeight/2
         let xBtm = Contraint.logoWidth.rawValue/2 - playButtomHeight/2
         let views = ["videoTag" : videoTagImage,"play" : play,"contentImage" : contentImage]
@@ -142,18 +159,27 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
             NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-yBtm-[play(btmHeight)]", options: [.alignAllCenterY], metrics: firstMatric, views: views))
             NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-xBtm-[play(btmHeight)]", options: [.alignAllCenterX], metrics: firstMatric, views: views))
         }
-        
-        //right site
-       
-        
-   }
+
+    }
     
-   
+    func configAdsLayout(){
+        adsImage.translatesAutoresizingMaskIntoConstraints = false
+        if let post_image = newsResponse?.post_image {
+            adsImage.loadImageForUrl(post_image)
+        }
+        addSubview(adsImage)
+        let views = ["adsImage" : adsImage]
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[adsImage]|", options: [], metrics: nil, views: views))
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[adsImage]|", options: [], metrics: nil, views: views))
+    }
+    
+    
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         return layoutAttributes
     }
     override func prepareForReuse() {
         videoTagImage.image = nil
+        adsImage.image = nil
         isHadVideo = false
         play.removeFromSuperview()
         titleText.preferredMaxLayoutWidth = UtilHelper.generateTitleTextMaxWidthForNewsPage(isHaveTagVideo: false)
