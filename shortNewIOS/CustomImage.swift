@@ -24,17 +24,14 @@ class CustomImage: UIImageView {
         if let url = url{
             URLSession.shared.dataTask(with: url, completionHandler: { (data, respones, error) in
                 if error != nil {
-                    print(error)
+                    self.image = #imageLiteral(resourceName: "default_image")
                     return
                 }
                 
                 DispatchQueue.main.async(execute: {
                     if let data = data {
                         let imageToCache = UIImage(data: data)
-                        //                    if imageToCache == nil {
-                        //                        self.image = #imageLiteral(resourceName: "default_image")
-                        //                        print(url!)
-                        //                    }
+                        
                         if let imageToCache = imageToCache{
                             self.image = imageToCache
                             self.imageCache.setObject(imageToCache, forKey: urlString as AnyObject)

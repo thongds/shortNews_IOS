@@ -164,13 +164,14 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
     
     func configAdsLayout(){
         adsImage.translatesAutoresizingMaskIntoConstraints = false
-        if let post_image = newsResponse?.post_image {
-            adsImage.loadImageForUrl(post_image)
-        }
+        adsImage.image = #imageLiteral(resourceName: "default_image")
         addSubview(adsImage)
         let views = ["adsImage" : adsImage]
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[adsImage]|", options: [], metrics: nil, views: views))
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[adsImage]|", options: [], metrics: nil, views: views))
+        if let post_image = newsResponse?.post_image {
+            adsImage.loadImageForUrl(post_image)
+        }
     }
     
     
