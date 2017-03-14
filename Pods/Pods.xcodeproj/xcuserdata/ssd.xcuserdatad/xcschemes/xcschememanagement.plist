@@ -14,7 +14,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>GoogleToolboxForMac.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-shortNewIOS.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftSpinner.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,22 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>333E47F1004946B94926B19979768D18</key>
+		<key>00103D6C821BE85971C563025527BA5D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<key>60217B1852A8886678868BEF549FE7A9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BA8785A6C74A31C84CE85AD5C471A2FD</key>
+		<key>765E66408ECA5A2BBF5CD86CA43279A1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C7A4C8D320DF63DFAFB7D6D8862E0310</key>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9EFE4C70245EE2857D336B8B9FA4E825</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B9903CA6A05A62F86B219C3F2BF47F03</key>
 		<dict>
 			<key>primary</key>
 			<true/>

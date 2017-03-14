@@ -9,4 +9,6 @@ target 'shortNewIOS' do
 pod 'Alamofire', '~> 4.0'
 pod 'AlamofireImage', '~> 3.1'
 pod 'youtube-ios-player-helper', '~> 0.1.4'
+pod 'SwiftSpinner'
+pod 'Google/Analytics'
 end

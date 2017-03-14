@@ -17,6 +17,7 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
     let lightColor = UIColor.init(colorLiteralRed: 55/255, green: 123/255, blue: 143/255, alpha: 100)
     let darkColor = UIColor.init(colorLiteralRed: 21/255, green: 40/255, blue: 45/255, alpha: 100)
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -102,8 +103,10 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         print(gestureRecognizer.isLeft)
         if(gestureRecognizer.isLeft){
             scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+            GoogleAnalyticHelpper.sendAction(withCategory: .global, action: .click, label: .news)
         }else{
             scrollView.setContentOffset(CGPoint(x: view.frame.width, y: 0), animated: false)
+            GoogleAnalyticHelpper.sendAction(withCategory: .global, action: .click, label:.social)
         }
         changeTabColor()
 
@@ -131,6 +134,9 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         addChildViewController(collectionView)
         collectionView.didMove(toParentViewController: self)
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        GoogleAnalyticHelpper.sendScreen(screenName :.home)
     }
 
 }

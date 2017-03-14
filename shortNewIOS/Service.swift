@@ -47,4 +47,23 @@ class Service {
 
     }
     
+    func checkVersion(params: [String : Any], callback : @escaping(Bool,CheckVersionResponse) -> Void){
+        let url = "http://192.168.1.102/ShortNews_Server/public/api/home/check-version"
+        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON{
+            response in
+            if  response.result.isSuccess{
+                if let JSON = response.result.value{
+                    let data = JSON as? [String : Any]
+                    if let data = data,let checkResponse = CheckVersionResponse(json: data) {
+                        callback(true, checkResponse)
+                    }else{
+                        callback(false, CheckVersionResponse())
+                    }
+                }
+            }else{
+                callback(false,CheckVersionResponse())
+            }
+        }
+    }
+    
 }
