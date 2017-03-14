@@ -10,6 +10,7 @@ import Foundation
 
 class NewsResponseModel: BaseModel {
 
+    var id : Int?
     var post_title : String?
     var post_content : String?
     var post_image : String?
@@ -25,6 +26,7 @@ class NewsResponseModel: BaseModel {
     var ads_code : String?
     init?(json : [String : Any]) {
         guard let postTitle = json["post_title"] as? String,
+            let id = json["id"] as? Int,
             let postContent = json["post_content"] as? String,
             let postImage = json["post_image"] as? String,
             let logoNews = json["paper_logo"] as? String,
@@ -42,7 +44,7 @@ class NewsResponseModel: BaseModel {
                 self.ads_code = ads_code
             }
         }
-        
+        self.id = id
         self.title_color = titleColor
         self.post_title = postTitle
         self.post_content = postContent

@@ -18,9 +18,9 @@ class GoogleAnalyticHelpper{
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
-    static func sendAction(withCategory : Category,action: Action,label : Label){
+    static func sendAction(withCategory : Category,action: Action,label : String){
         guard let tracker = GAI.sharedInstance().defaultTracker else { return }
-        guard let builder = GAIDictionaryBuilder.createEvent(withCategory: withCategory.rawValue, action: action.rawValue, label: label.rawValue, value: nil) else {return}
+        guard let builder = GAIDictionaryBuilder.createEvent(withCategory: withCategory.rawValue, action: action.rawValue, label: label, value: nil) else {return}
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
 }
@@ -33,12 +33,18 @@ enum ScreenName : String {
 
 enum Action : String {
     case click = "click"
+    case clickNews = "click_news"
+    case clickSocial = "click_social"
+    case clickNewTitle = "click_new_title"
+    case clickVideo = "click_video"
 }
 
 enum Category : String{
     case global = "global"
+    case newsEvents = "newsEvents"
 }
 enum Label : String {
     case news = "news"
     case social = "social"
+    case newsTitle = "news Title"
 }

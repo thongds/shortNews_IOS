@@ -103,10 +103,10 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         print(gestureRecognizer.isLeft)
         if(gestureRecognizer.isLeft){
             scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-            GoogleAnalyticHelpper.sendAction(withCategory: .global, action: .click, label: .news)
+            GoogleAnalyticHelpper.sendAction(withCategory: .global, action: .clickNews, label: " ")
         }else{
             scrollView.setContentOffset(CGPoint(x: view.frame.width, y: 0), animated: false)
-            GoogleAnalyticHelpper.sendAction(withCategory: .global, action: .click, label:.social)
+            GoogleAnalyticHelpper.sendAction(withCategory: .global, action: .clickSocial, label:" ")
         }
         changeTabColor()
 

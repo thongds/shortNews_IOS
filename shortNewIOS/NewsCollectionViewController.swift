@@ -90,6 +90,7 @@ class NewsCollectionViewController: NewsPresent{
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! NewsCollectionViewCell
        // Configure the cell
         cell.contentView.backgroundColor = UIColor.white
+        cell.setNewsDelegate(delegate: self)
         if saveData.count > 0 {
             cell.newsResponse = saveData[indexPath.item]
             oldIndex = saveData.count

@@ -13,6 +13,8 @@ import AVFoundation
 
 class NewsCollectionViewCell: BaseCollectionViewCell {
     
+    var newsDelegate : ClickNewsCellEvent?
+    
     var newsResponse : NewsResponseModel? {
     
         didSet{
@@ -124,6 +126,11 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
         addSubview(contentText)
         addSubview(leftShape)
         
+        titleText.isUserInteractionEnabled = true
+        let tabRec = MyTapGestureRecognizer(target: self, action: #selector(self.clickTitle))
+        tabRec.id = newsResponse?.id
+        titleText.addGestureRecognizer(tabRec)
+        
         let views = [ "logoNews" : logoNews,"contentImage" : contentImage,"contentText": contentText,"titleText": titleText,"leftShape" : leftShape,"videoTag" : videoTagImage]
         let firstMatric = ["normalSpace" : Contraint.normalSpace.rawValue,"logoWidth" : Contraint.logoWidth.rawValue,"logoHeigh" : Contraint.logoHeight.rawValue,"contentImageHeight" :Contraint.contentImageHeight.rawValue,"videoTagWidth" : Contraint.videoTagWidth.rawValue]
         
@@ -137,6 +144,11 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:[titleText]-normalSpace-[contentText]", options: [.alignAllLeading], metrics: firstMatric, views: views))
     }
     
+    func clickTitle(tabRec : MyTapGestureRecognizer){
+        if let newsDelegate = newsDelegate, let id = tabRec.id{
+            newsDelegate.clickTitle(id: id)
+        }
+    }
     func setupNewsLayout() {
         configMainViewsLayout()
         configTagVideoLayout()
@@ -186,6 +198,11 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
         titleText.preferredMaxLayoutWidth = UtilHelper.generateTitleTextMaxWidthForNewsPage(isHaveTagVideo: false)
         super.prepareForReuse()
     }
+    
+    func setNewsDelegate(delegate : ClickNewsCellEvent){
+        self.newsDelegate = delegate
+    }
+    
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
        super.apply(layoutAttributes)
 //        print("setupWithAutoLayout a2")
@@ -196,37 +213,9 @@ class NewsCollectionViewCell: BaseCollectionViewCell {
        
     
     }
-//    func setupView(){
-//        contentText.translatesAutoresizingMaskIntoConstraints = false
-//        logoNews.translatesAutoresizingMaskIntoConstraints = false
-//        contentImage.translatesAutoresizingMaskIntoConstraints = false
-//        titleText.translatesAutoresizingMaskIntoConstraints = false
-//        titleText.backgroundColor = UIColor.clear
-//        leftShape.frame = CGRect(x: 0, y: 0, width: Contraint.normalSpace.rawValue/2, height: frame.height)
-//        contentText.backgroundColor = UIColor.clear
-//        let space = Contraint.normalSpace.rawValue
-//        let leftCellContentHeight = Contraint.normalSpace.rawValue + Contraint.logoHeight.rawValue + Contraint.normalSpace.rawValue + Contraint.contentImageHeight.rawValue
-//        var yLogoPosition : CGFloat = 0
-//        if leftCellContentHeight <= frame.height {
-//            yLogoPosition = frame.height/2 - (Contraint.normalSpace.rawValue + Contraint.logoHeight.rawValue + Contraint.normalSpace.rawValue + Contraint.contentImageHeight.rawValue)/2
-//        }else{
-//            yLogoPosition = space
-//        }
-//        logoNews.frame = CGRect(x: space, y: yLogoPosition, width: Contraint.logoWidth.rawValue, height: Contraint.logoHeight.rawValue)
-//        contentImage.frame = CGRect(x: space, y: logoNews.frame.origin.y + logoNews.frame.height + space, width: Contraint.logoWidth.rawValue, height: Contraint.contentImageHeight.rawValue)
-//        titleText.sizeToFit()
-//        let leftWidth = frame.width - (Contraint.logoWidth.rawValue + 2*space)
-//        titleText.numberOfLines = 0
-//        titleText.frame = CGRect(x: Contraint.logoWidth.rawValue + 2*space, y: space, width: leftWidth , height: titleText.frame.height)
-//        contentText.sizeToFit()
-//        contentText.numberOfLines = 0
-//        contentText.frame = CGRect(x: titleText.frame.origin.x, y: titleText.frame.height + space, width: leftWidth, height: contentText.frame.height)
-//        
-//        addSubview(leftShape)
-//        addSubview(logoNews)
-//        addSubview(contentImage)
-//        addSubview(titleText)
-//        addSubview(contentText)
-//    }
-   
+    class MyTapGestureRecognizer: UITapGestureRecognizer {
+        var id: Int?
+        
+    }
+    
 }

@@ -60,5 +60,16 @@ class NewsPresent : BaseCollectionViewController{
         }
     }
 }
-
+extension NewsPresent : ClickNewsCellEvent{
+    func clickTitle(id : Int){
+        let value = String(id)
+        GoogleAnalyticHelpper.sendAction(withCategory: .newsEvents, action: .click, label: value)
+    }
+    
+    func clickVideo(id : Int){
+    }
+    
+    func clickAds(adsCode : String){
+    }
+}
 
