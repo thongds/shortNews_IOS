@@ -55,7 +55,7 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
        
         
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        let navigationBarHeight = (navigationController?.navigationBar.frame.height)! + statusBarHeight
+        let navigationBarHeight = (navigationController?.navigationBar.frame.height)! + statusBarHeight - CGFloat(5)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = UIColor.init(colorLiteralRed: 55/255, green: 123/255, blue: 143/255, alpha: 100)
         scrollView.showsHorizontalScrollIndicator = false

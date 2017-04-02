@@ -60,25 +60,27 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
     func loadData(page : Int, refresh : RefreshView?) {
         loading = true
         self.setState(isLoading: self.loading)
-        Alamofire.request("http://192.168.1.102/blog/public/api/news/getsocial/\(page)").responseJSON { response in
+        Alamofire.request("http://tinexpress.vn/api/news/get-social?page=\(page)").responseJSON { response in
             print("response page : \(page)")
             self.loading = false
             if response.result.isSuccess {
                 if let JSON = response.result.value {
-                    let data = JSON as? [[String: Any]]
-                    if let data1 = data{
+                    let dataSection = JSON as? [String: Any]
+                    let data = SocialResponseWithSection(json: dataSection!)
+                    if let data1 = data?.dataResponse{
                         if refresh != nil {
                             self.nextPage = 0
                             self.layout.deleteCache()
                             self.layout.resetMaxHeight()
                             self.saveData = [SocialResponse]()
                         }
-                        for item in data1 {
-                            let data = SocialResponse(json: item)
-                            if let dataUW = data {
-                                self.saveData.append(dataUW)
-                            }
-                        }
+                        self.saveData = data1
+//                        for item in data1 {
+//                            let data = SocialResponse(json: item)
+//                            if let dataUW = data {
+//                                self.saveData.append(dataUW)
+//                            }
+//                        }
                         self.nextPage = self.nextPage + 1
                     }else{
                         return

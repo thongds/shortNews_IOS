@@ -11,7 +11,7 @@ import Alamofire
 class Service {
     
     func getHomeNews(page : Int,callback : @escaping (Bool,NewsResponseWithSection)->Void){
-        let url = "http://192.168.1.102/ShortNews_Server/public/api/news/getnews?page=\(page)"
+        let url = "http://tinexpress.vn/api/news/getnews?page=\(page)"
         Alamofire.request(url).responseJSON { response in
             //self.isLoading = false
             var dataResponse  :  NewsResponseWithSection? = nil
@@ -48,7 +48,7 @@ class Service {
     }
     
     func checkVersion(params: [String : Any], callback : @escaping(Bool,CheckVersionResponse) -> Void){
-        let url = "http://192.168.1.102/ShortNews_Server/public/api/home/check-version"
+        let url = "http://tinexpress.vn/api/home/check-version"
         Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON{
             response in
             if  response.result.isSuccess{

@@ -173,6 +173,8 @@ class NewsCollectionViewController: NewsPresent{
                 self.collectionView?.insertItems(at: indexPathCollect)
             }
         }
+    func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
+    }
     
 }
 
