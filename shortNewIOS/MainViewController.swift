@@ -77,7 +77,7 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         let newCollectionView = NewsCollectionViewController(collectionViewLayout: NewsCollectionViewLayout())
         //let newCollectionView = NewsViewController()
         addCollectionViewController(collectionView: newCollectionView)
-        let socialCollectionView = SocialCollectionViewController(collectionViewLayout: SocialDetailCollectionViewLayout())
+        let socialCollectionView = SocialCollectionViewController(collectionViewLayout: NewsCollectionViewLayout())
         addCollectionViewController(collectionView: socialCollectionView)
         let scrollViews = ["scrollView" : scrollView,"newCollectionView" : newCollectionView.view,"socialCollectionView":socialCollectionView.view]
         

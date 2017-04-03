@@ -15,8 +15,9 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
     var refreshView : RefreshView!
     var refreshViewHeight : CGFloat = 0
     var loadMoreView : LoadMoreView?
+    var data : SocialResponseWithSection?
     var saveData = [SocialResponse]()
-    var layout = SocialDetailCollectionViewLayout()
+    var layout = NewsCollectionViewLayout()
     var nextPage : Int = 0
     var loading : Bool = false
     var oldIndex : Int = 0
@@ -37,7 +38,7 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
         super.viewDidLoad()
         setReloadDelegate(delegate: self)
         loadData(page: nextPage,refresh : nil)
-        layout = collectionViewLayout as! SocialDetailCollectionViewLayout
+        layout = collectionViewLayout as! NewsCollectionViewLayout
         layout.space = 10
         layout.delegate = self
         // refresh config
@@ -53,6 +54,9 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
         //collectionView?.backgroundColor = UIColor.init(colorLiteralRed: 55/255, green: 123/255, blue: 143/255, alpha: 100)
         // Register cell classes
         self.collectionView!.register(SocialCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        //register header
+        self.collectionView!.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "SectionHeader")
+        layout.headerReferenceSize = CGSize(width: 100, height: 100)
         
         // Do any additional setup after loading the view.
     }
@@ -66,8 +70,8 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
             if response.result.isSuccess {
                 if let JSON = response.result.value {
                     let dataSection = JSON as? [String: Any]
-                    let data = SocialResponseWithSection(json: dataSection!)
-                    if let data1 = data?.dataResponse{
+                    self.data = SocialResponseWithSection(json: dataSection!)
+                    if let data1 = self.data?.dataResponse{
                         if refresh != nil {
                             self.nextPage = 0
                             self.layout.deleteCache()
@@ -139,7 +143,13 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         refreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
-   
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let sectionHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as! HeaderView
+        if(nextPage == 1){
+            sectionHeaderView.message = self.data?.message
+        }
+        return sectionHeaderView
+    }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
