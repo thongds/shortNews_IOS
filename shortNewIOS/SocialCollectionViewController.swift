@@ -160,7 +160,7 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
         let transitionDelegate = TransitionDelegate()
         if saveData.count > 0 {
             if let isVideo = saveData[indexPath.item].social_content_type_id {
-                if isVideo == 0{
+                if isVideo == ContentTypeEnum.YOUTUBE.rawValue{
                     let vc = YTPlayViewViewController()
                     vc.transitioningDelegate = transitionDelegate
                     vc.modalPresentationStyle = .custom
@@ -212,19 +212,15 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
     }
 
     func getYTId(data : SocialResponse) -> String{
-        if let contentImageUrl = data.post_image_url{
-            if let sperateTag = data.separate_image_tag{
-                let linkImage = contentImageUrl.components(separatedBy: sperateTag )
-                if linkImage.count > 0 {
-                    if let social_content_type_id = data.social_content_type_id {
-                        //let linkImageIndex = social_content_type_id == 1 ? linkImage[0] : linkImage[1]
-                        if social_content_type_id == 0 {
+        if let contentImageUrl = data.post_image_url,let sperateTag = data.separate_image_tag{
+            let linkImage = contentImageUrl.components(separatedBy: sperateTag )
+            if linkImage.count > 0 {
+                if let social_content_type_id = data.social_content_type_id {
+                    if social_content_type_id == ContentTypeEnum.YOUTUBE.rawValue {
                             return linkImage[0]
-                        }
                     }
                 }
             }
-            
         }
         return ""
     }

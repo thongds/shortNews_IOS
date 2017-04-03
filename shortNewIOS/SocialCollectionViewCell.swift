@@ -24,6 +24,8 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
     let leftShape = UIView()
     let moreImageView = UIView()
     let numberImageLeft = UILabel()
+    let youtubePlayButton = UIImageView.init(image: #imageLiteral(resourceName: "youtube").imageResize(sizeChange: CGSize(width: 80, height: 50)))
+    var isYoutube : Bool = false
     var numberImageLeftContant = 0
     let socialLogoImage : CustomImage = {
         let imageView = CustomImage()
@@ -67,9 +69,9 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
                 let linkImage = contentImageUrl.components(separatedBy: sperateTag )
                 if linkImage.count > 0 {
                     if let social_content_type_id = socialResponse?.social_content_type_id {
-                        let linkImageIndex = social_content_type_id == 1 ? linkImage[0] : linkImage[1]
+                        let linkImageIndex = social_content_type_id == ContentTypeEnum.IMAGE.rawValue ? linkImage[0] : linkImage[1]
                         contentImage.loadImageForUrl(linkImageIndex)
-                        if social_content_type_id == 1{
+                        if social_content_type_id == ContentTypeEnum.IMAGE.rawValue{
                             numberImageLeftContant =  linkImage.count - 2
                         }
                     }
@@ -89,6 +91,7 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
         if let leftShapeColor = socialResponse?.color_tag{
             leftShape.backgroundColor = UIColor(hexString: leftShapeColor)
         }
+        isYoutube = socialResponse?.social_content_type_id == ContentTypeEnum.YOUTUBE.rawValue ? true :false
         setupWithContraint()
         //setupViews()
     }
@@ -103,6 +106,7 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
         leftShape.translatesAutoresizingMaskIntoConstraints = false
         moreImageView.translatesAutoresizingMaskIntoConstraints = false
         numberImageLeft.translatesAutoresizingMaskIntoConstraints = false
+        youtubePlayButton.translatesAutoresizingMaskIntoConstraints = false
         numberImageLeft.font = UIFont.systemFont(ofSize: 28)
         numberImageLeft.textColor = UIColor.white
         addSubview(socialLogoImage)
@@ -155,7 +159,18 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
                 NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-xNumberPos-[numberImageLeft(numberLabelWidth)]", options: [], metrics: labelMetric, views: ["numberImageLeft" : numberImageLeft]))
                 numberImageLeft.text = "+\(numberImageLeftContant)"
             }
-            
+            if isYoutube{
+                contentImage.addSubview(youtubePlayButton)
+                let centerX  = NSLayoutConstraint(item: youtubePlayButton, attribute: NSLayoutAttribute.centerX
+                    , relatedBy: NSLayoutRelation.equal, toItem: contentImage,
+                      attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0.0)
+                let centerY  = NSLayoutConstraint(item: youtubePlayButton, attribute: NSLayoutAttribute.centerY
+                    , relatedBy: NSLayoutRelation.equal, toItem: contentImage,
+                      attribute: NSLayoutAttribute.centerY, multiplier: 1.0, constant: 0.0)
+                NSLayoutConstraint.activate([centerX,centerY])
+            }else{
+                youtubePlayButton.removeFromSuperview()
+            }
         }
 
     }
@@ -197,11 +212,11 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
         addSubview(titleText)
         addSubview(contentImage)
         
-        
     }
     override func prepareForReuse() {
         numberImageLeft.text = ""
         numberImageLeftContant = 0
+        isYoutube = false
         moreImageView.removeFromSuperview()
         super.prepareForReuse()
     }
