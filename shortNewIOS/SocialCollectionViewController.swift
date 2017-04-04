@@ -68,7 +68,10 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
             indexPathCollect.append(indexPath)
         }
         UIView.performWithoutAnimation {
+            DispatchQueue.main.async(execute: {
              self.collectionView?.insertItems(at: indexPathCollect)
+            })
+            
         }
    }
     

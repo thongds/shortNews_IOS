@@ -141,8 +141,11 @@ class NewsCollectionViewController: NewsPresent{
                 
             }
             UIView.performWithoutAnimation {
-                self.collectionView?.insertItems(at: indexPathCollect)
+                DispatchQueue.main.async(execute: {
+                    self.collectionView?.insertItems(at: indexPathCollect)
+                })
             }
+        
         }
     
       func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
