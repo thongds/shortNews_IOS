@@ -97,7 +97,8 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
     }
     override func setupViews() {
          leftWidth =  UtilHelper.getScreenWidth()-(UtilHelper.getMarginCell()*2) - (Contraint.logoWidth.rawValue + 3*Contraint.normalSpace.rawValue)
-        
+        titleText.numberOfLines = 0
+        titleText.preferredMaxLayoutWidth = leftWidth
         titleText.translatesAutoresizingMaskIntoConstraints = false
         socialLogoImage.translatesAutoresizingMaskIntoConstraints = false
         fanpageLogo.translatesAutoresizingMaskIntoConstraints = false                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -127,9 +128,10 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[leftShape]-2-[socialLogoImage(==logoWidth)]", options: [], metrics: metrics, views: views))
         
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:[socialLogoImage]-normalSpace-[fanpageLogo(==logoWidth)]", options: [.alignAllLeading,.alignAllTrailing], metrics: metrics, views: views))
+        
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:[fanpageLogo]-[fanPageName]", options: [.alignAllLeading,.alignAllTrailing], metrics: metrics, views: views))
         //right site
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:[socialLogoImage]-normalSpace-[titleText]-normalSpace-|", options: [.alignAllTop], metrics: metrics, views: views))
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:[socialLogoImage]-normalSpace-[titleText]", options: [.alignAllTop], metrics: metrics, views: views))
         
        
     }

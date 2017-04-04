@@ -296,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shortNewIOS/SocialCollectionViewCell.swift"
-            timestampString = "512986736.211498"
+            timestampString = "512992578.574991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "apply(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -784,8 +784,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
             endingLineNumber = "22"
-            landmarkName = "NewsCollectionViewCell"
-            landmarkType = "3">
+            landmarkName = "newsResponse"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
