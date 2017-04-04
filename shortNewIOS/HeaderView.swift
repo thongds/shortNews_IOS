@@ -31,9 +31,9 @@ class HeaderView: UICollectionReusableView {
         super.init(frame: frame)
         viewHeader = UIView(frame: frame)
         viewHeader.backgroundColor = UIColor.clear
-        viewHeader.translatesAutoresizingMaskIntoConstraints = false
+        //viewHeader.translatesAutoresizingMaskIntoConstraints = false
         addSubview(viewHeader)
-        //addConstrainView()
+        addConstrainView()
         
         
     }
@@ -59,11 +59,11 @@ class HeaderView: UICollectionReusableView {
     }
     
     func updateMessage(){
-        todayLabel.text = message?.welcomeMessage
         todayLabel.textAlignment = .center
-        //todayLabel.numberOfLines = 0
         todayLabel.minimumScaleFactor = 10/UIFont.labelFontSize
         todayLabel.adjustsFontSizeToFitWidth = true
+        todayLabel.text = message?.welcomeMessage
+        
         if let avatar = message?.avatar {
             cloudImage.loadImageForUrl((avatar))
         }
