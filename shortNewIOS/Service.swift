@@ -10,42 +10,6 @@ import Foundation
 import Alamofire
 class Service {
     
-    func getHomeNews(page : Int,callback : @escaping (Bool,NewsResponseWithSection)->Void){
-        let url = "http://tinexpress.vn/api/news/getnews?page=\(page)"
-        Alamofire.request(url).responseJSON { response in
-            //self.isLoading = false
-            var dataResponse  :  NewsResponseWithSection? = nil
-            if response.result.isSuccess {
-                if let JSON = response.result.value {
-                    let data = JSON as? [String: Any]
-                    dataResponse = NewsResponseWithSection(json: data!)
-                    if let dataResponse = dataResponse{
-                        callback(true, dataResponse)
-                    }else{
-                        callback(false, NewsResponseWithSection())
-                    }
-                    
-//                    let data = JSON as? [[String: Any]]
-//                    
-//                    if let data1 = data{
-//                        for item in data1 {
-//                            let data = NewsResponseModel(json: item)
-//                            if let dataUW = data {
-//                                dataResponse.append(dataUW)
-//                            }
-//                        }
-//                        callback(true,dataResponse)
-//                    }else{
-//                        callback(false,dataResponse)
-//                    }
-                }
-            }else{
-                callback(false,NewsResponseWithSection())
-            }
-            
-        }
-
-    }
     
     func checkVersion(params: [String : Any], callback : @escaping(Bool,CheckVersionResponse) -> Void){
         let url = "http://tinexpress.vn/api/home/check-version"
@@ -66,4 +30,61 @@ class Service {
         }
     }
     
+    func getHomeNews(page : Int,callback : @escaping (Bool,NewsResponseWithSection)->Void){
+        let url = "http://tinexpress.vn/api/news/getnews?page=\(page)"
+        Alamofire.request(url).responseJSON { response in
+            var dataResponse  :  NewsResponseWithSection? = nil
+            if response.result.isSuccess {
+                if let JSON = response.result.value {
+                    let data = JSON as? [String: Any]
+                    dataResponse = NewsResponseWithSection(json: data!)
+                    if let dataResponse = dataResponse{
+                        callback(true, dataResponse)
+                    }else{
+                        callback(false, NewsResponseWithSection())
+                    }
+                }
+            }else{
+                callback(false,NewsResponseWithSection())
+            }
+            
+        }
+
+    }
+    
+    func getHomeSocial(page : Int,callback : @escaping (Bool,SocialResponseWithSection) -> Void){
+        let url = "http://tinexpress.vn/api/news/get-social?page=\(page)"
+        Alamofire.request(url).responseJSON{ response in
+            if response.result.isSuccess{
+                if let JSON = response.result.value{
+                    let data = JSON as? [String : Any]
+                    if let data = data,let dataResponse = SocialResponseWithSection(json: data){
+                        callback(true,dataResponse)
+                    }else{
+                        callback(false,SocialResponseWithSection())
+                    }
+                }
+            }else{
+                callback(false,SocialResponseWithSection())
+            }
+        }
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

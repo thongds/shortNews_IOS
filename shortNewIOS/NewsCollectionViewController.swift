@@ -22,26 +22,7 @@ class NewsCollectionViewController: NewsPresent{
         setReloadDelegate(delegate: self)
         refreshView.delegate = self
         //load data at first time
-        self.progressLoadData(page: nextPage, refresh: nil){
-            (isSuccess,page) in
-            if(isSuccess){
-                if page == 0 {
-                    UIView.performWithoutAnimation {
-                        self.collectionView?.reloadData()
-                    }
-                    
-                }else{
-                    self.insertIntoCollection(page)
-                }
-            }else{
-                self.showAlert()
-                if self.saveData.count == 0 {
-                    self.setState(isLoading: self.isLoading)
-                }
-            }
-            self.updateLoadmoreView(showLoadmore: false)
-            
-        }
+        self.loadAndUpdateDataView(page: nextPage, refresh: nil)
         layout = collectionViewLayout as! NewsCollectionViewLayout
         layout.space = 10
         layout.delegate = self
@@ -99,26 +80,7 @@ class NewsCollectionViewController: NewsPresent{
             if indexPath.item >= saveData.count - loadMoreOfset && !isLoading && !refreshView.isRefreshing {
                     updateLoadmoreView(showLoadmore: true)
                  //   loadData(nextPage, refresh: nil)
-                self.progressLoadData(page: nextPage, refresh: nil){
-                    (isSuccess,page) in
-                    if(isSuccess){
-                        if page == 0 {
-                            UIView.performWithoutAnimation {
-                                self.collectionView?.reloadData()
-                            }
-                            
-                        }else{
-                            self.insertIntoCollection(page)
-                        }
-                    }else{
-                        self.showAlert()
-                        if self.saveData.count == 0 {
-                            self.setState(isLoading: self.isLoading)
-                        }
-                    }
-                    self.updateLoadmoreView(showLoadmore: false)
-                    
-                }
+                self.loadAndUpdateDataView(page: nextPage, refresh: nil)
             }
         }
         return cell
@@ -178,6 +140,27 @@ class NewsCollectionViewController: NewsPresent{
         }
     
       func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
+        self.progressLoadData(page: page, refresh: refresh){
+            (isSuccess,page) in
+            if(isSuccess){
+                if page == 0 {
+                    UIView.performWithoutAnimation {
+                        self.collectionView?.reloadData()
+                    }
+                    
+                }else{
+                    self.insertIntoCollection(page)
+                }
+            }else{
+                self.showAlert()
+                if self.saveData.count == 0 {
+                    self.setState(isLoading: self.isLoading)
+                }
+            }
+            self.updateLoadmoreView(showLoadmore: false)
+            
+        }
+        
       }
     
 }
@@ -222,51 +205,12 @@ extension NewsCollectionViewController :  NewsLayoutDelegate {
 extension NewsCollectionViewController : RefreshDelegate {
     
     func refreshViewDidRefresh(refreshView : RefreshView){
-        self.progressLoadData(page: 0, refresh: refreshView){
-         (isSuccess,page) in
-            if(isSuccess){
-                if page == 0 {
-                    UIView.performWithoutAnimation {
-                        self.collectionView?.reloadData()
-                    }
-                    
-                }else{
-                    self.insertIntoCollection(page)
-                }
-            }else{
-                self.showAlert()
-                if self.saveData.count == 0 {
-                    self.setState(isLoading: self.isLoading)
-                }
-            }
-            refreshView.endRefreshing()
-            self.updateLoadmoreView(showLoadmore: false)
-            
-        }
+        self.loadAndUpdateDataView(page: 0, refresh: refreshView)
     }
 }
 extension NewsCollectionViewController : BaseCollectionViewControllerDelegate {
     func requiredReload() {
-        self.progressLoadData(page: 0, refresh: nil){
-            (isSuccess,page) in
-            if(isSuccess){
-                if page == 0 {
-                    UIView.performWithoutAnimation {
-                        self.collectionView?.reloadData()
-                    }
-                    
-                }else{
-                    self.insertIntoCollection(page)
-                }
-            }else{
-                self.showAlert()
-                if self.saveData.count == 0 {
-                    self.setState(isLoading: self.isLoading)
-                }
-            }
-            self.updateLoadmoreView(showLoadmore: false)
-            
-        }
+        self.loadAndUpdateDataView(page: 0, refresh: nil)
     }
 }
 

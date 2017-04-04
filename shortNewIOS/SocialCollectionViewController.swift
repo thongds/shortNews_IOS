@@ -12,15 +12,10 @@ import Alamofire
 private let reuseIdentifier = "Cell_SocialCollectionViewController"
 private let resueIdentifierForHeader = "newsResuseHeaderForSocial"
 
-class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDelegate  {
+class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
     var refreshView : RefreshView!
     var refreshViewHeight : CGFloat = 0
     var loadMoreView : LoadMoreView?
-    var data : SocialResponseWithSection?
-    var saveData = [SocialResponse]()
-    var layout = NewsCollectionViewLayout()
-    var nextPage : Int = 0
-    var loading : Bool = false
     var oldIndex : Int = 0
     var colors: [UIColor] {
         get {
@@ -38,7 +33,8 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
     override func viewDidLoad() {
         super.viewDidLoad()
         setReloadDelegate(delegate: self)
-        loadData(page: nextPage,refresh : nil)
+        //loadData(page: nextPage,refresh : nil)
+        self.loadAndUpdateDataView(page: nextPage, refresh: nil)
         layout = collectionViewLayout as! NewsCollectionViewLayout
         layout.space = 10
         layout.delegate = self
@@ -61,67 +57,8 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
         
         // Do any additional setup after loading the view.
     }
-    
-    func loadData(page : Int, refresh : RefreshView?) {
-        loading = true
-        self.setState(isLoading: self.loading)
-        Alamofire.request("http://tinexpress.vn/api/news/get-social?page=\(page)").responseJSON { response in
-            print("response page : \(page)")
-            self.loading = false
-            if response.result.isSuccess {
-                if let JSON = response.result.value {
-                    let dataSection = JSON as? [String: Any]
-                    self.data = SocialResponseWithSection(json: dataSection!)
-                    if let data1 = self.data?.dataResponse{
-                        if refresh != nil {
-                            self.nextPage = 0
-                            self.layout.deleteCache()
-                            self.layout.resetMaxHeight()
-                            self.saveData = [SocialResponse]()
-                        }
-                        if(page != 0){
-                            for key in 0..<data1.count{
-                                self.saveData.append(data1[key])
-                            }
-                        }
-                        if(page == 0){
-                            self.saveData = data1
-                        }
-//                        for item in data1 {
-//                            let data = SocialResponse(json: item)
-//                            if let dataUW = data {
-//                                self.saveData.append(dataUW)
-//                            }
-//                        }
-                        self.nextPage = self.nextPage + 1
-                    }else{
-                        return
-                    }
-                }
-                if page == 0 {
-                    UIView.performWithoutAnimation {
-                        self.collectionView?.reloadData()
-                    }
-                }else{
-                    self.insertintoCollection(page)
-                }
-                self.loadSucess()
-            }else{
-                self.showAlert()
-                if self.saveData.count == 0 {
-                    self.setState(isLoading: self.loading)
-                }
-            }
-            if let refresh1 = refresh {
-                refresh1.endRefreshing()
-            }
-            self.updateLoadmoreView(showLoadmore: false)
-            
-        }
-        
-    }
-   
-    func insertintoCollection(_ page : Int){
+      
+    func insertIntoCollection(_ page : Int){
       
         layout.deleteCache()
         print("saveData count \(saveData.count)")
@@ -218,20 +155,31 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
             }
        }
     }
-
-    func getYTId(data : SocialResponse) -> String{
-        if let contentImageUrl = data.post_image_url,let sperateTag = data.separate_image_tag{
-            let linkImage = contentImageUrl.components(separatedBy: sperateTag )
-            if linkImage.count > 0 {
-                if let social_content_type_id = data.social_content_type_id {
-                    if social_content_type_id == ContentTypeEnum.YOUTUBE.rawValue {
-                            return linkImage[0]
+    
+    func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
+        self.loadDataProcess(page: page, refresh: refresh){
+            (isSuccess,page) in
+            if(isSuccess){
+                if page == 0 {
+                    UIView.performWithoutAnimation {
+                        self.collectionView?.reloadData()
                     }
+                    
+                }else{
+                    self.insertIntoCollection(page)
+                }
+            }else{
+                self.showAlert()
+                if self.saveData.count == 0 {
+                    self.setState(isLoading: self.isLoading)
                 }
             }
+            self.updateLoadmoreView(showLoadmore: false)
+            
         }
-        return ""
+        
     }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         
@@ -259,9 +207,10 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
             cell.titleText.numberOfLines = 0
             cell.titleText.preferredMaxLayoutWidth = leftWidth
             
-            if indexPath.item >= saveData.count - 1 && !loading && !refreshView.isRefreshing {
+            if indexPath.item >= saveData.count - 1 && !isLoading && !refreshView.isRefreshing {
                 updateLoadmoreView(showLoadmore: true)
-                loadData(page: nextPage, refresh: nil)
+                //loadData(page: nextPage, refresh: nil)
+                self.loadAndUpdateDataView(page: nextPage, refresh: nil)
             }
         }
         return cell
@@ -315,12 +264,14 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
 extension SocialCollectionViewController : RefreshDelegate {
     
     func refreshViewDidRefresh(refreshView : RefreshView){
-        loadData(page: 0, refresh: refreshView)
+        //loadData(page: 0, refresh: refreshView)
+        self.loadAndUpdateDataView(page: 0, refresh: refreshView)
     }
 }
 extension SocialCollectionViewController : BaseCollectionViewControllerDelegate {
     func requiredReload() {
-        loadData(page: 0, refresh: nil)
+        //loadData(page: 0, refresh: nil)
+        self.loadAndUpdateDataView(page: 0, refresh: nil)
     }
 }
 

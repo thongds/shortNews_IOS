@@ -27,4 +27,6 @@ class SocialResponseWithSection{
             }
         }
     }
+    init(){
+    }
 }
