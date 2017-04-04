@@ -148,6 +148,7 @@ class NewsCollectionViewController: NewsPresent{
       func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
         self.progressLoadData(page: page, refresh: refresh){
             (isSuccess,page) in
+            self.isLoading = false
             if(isSuccess){
                 if page == 0 {
                     UIView.performWithoutAnimation {
@@ -163,8 +164,11 @@ class NewsCollectionViewController: NewsPresent{
                     self.setState(isLoading: self.isLoading)
                 }
             }
+            
+            if refresh != nil{
+                refresh?.endRefreshing()
+            }
             self.updateLoadmoreView(showLoadmore: false)
-            self.isLoading = false
         }
         
       }

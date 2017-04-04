@@ -82,7 +82,7 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
 //            updateLoadmoreView(showLoadmore: true)
 //            loadData(page: nextPage, refresh: nil)
 //        }
-        
+        refreshView.scrollViewDidScroll(scrollView)
         let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
         if bottomEdge >= scrollView.contentSize.height && !isLoading {
             updateLoadmoreView(showLoadmore: true)
@@ -90,7 +90,7 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
             self.loadAndUpdateDataView(page: nextPage, refresh: nil)
         }
         
-        refreshView.scrollViewDidScroll(scrollView)
+        
     }
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         refreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
@@ -181,6 +181,9 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
                 if self.saveData.count == 0 {
                     self.setState(isLoading: self.isLoading)
                 }
+            }
+            if refresh != nil{
+                refresh?.endRefreshing()
             }
             self.updateLoadmoreView(showLoadmore: false)
             
