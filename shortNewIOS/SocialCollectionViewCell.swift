@@ -24,7 +24,7 @@ class SocialCollectionViewCell: BaseCollectionViewCell {
     let leftShape = UIView()
     let moreImageView = UIView()
     let numberImageLeft = UILabel()
-    let youtubePlayButton = UIImageView.init(image: #imageLiteral(resourceName: "youtube").imageResize(sizeChange: CGSize(width: 80, height: 50)))
+    let youtubePlayButton = UIImageView.init(image: #imageLiteral(resourceName: "youtube").imageResize(sizeChange: CGSize(width: 70, height: 40)))
     var isYoutube : Bool = false
     var numberImageLeftContant = 0
     let socialLogoImage : CustomImage = {

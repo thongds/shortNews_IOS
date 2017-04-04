@@ -75,9 +75,10 @@ class NewsCollectionViewLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var layoutAttributes = [NewsCollectionViewAttributes]()
         for attributes in cache {
-            if attributes.frame.intersects(rect) {
-                layoutAttributes.append(attributes)
-            }
+            layoutAttributes.append(attributes)
+//            if attributes.frame.intersects(rect) {
+//                layoutAttributes.append(attributes)
+//            }
         }
         return layoutAttributes
     }

@@ -12,6 +12,7 @@ import AlamofireImage
 import AVKit
 import AVFoundation
 private let reuseIdentifier = "Cell_NewsCollectionViewController"
+private let resueIdentifierForHeader = "newsResuseHeaderForNews"
 
 class NewsCollectionViewController: NewsPresent{
     let loadMoreOfset = 1
@@ -48,12 +49,13 @@ class NewsCollectionViewController: NewsPresent{
         collectionView?.showsVerticalScrollIndicator = true
         collectionView?.isPagingEnabled = false
         self.collectionView!.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        self.collectionView!.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "SectionHeader")
+        self.collectionView!.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: resueIdentifierForHeader)
         layout.headerReferenceSize = CGSize(width: 100, height: 100)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let sectionHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as! HeaderView
+        
+        let sectionHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: resueIdentifierForHeader, for: indexPath) as! HeaderView
         if(nextPage == 1){
             sectionHeaderView.message = self.data?.message
         }
@@ -168,13 +170,15 @@ class NewsCollectionViewController: NewsPresent{
             for i in oldIndex..<saveData.count{
                 let indexPath = IndexPath(item: i, section: 0)
                 indexPathCollect.append(indexPath)
+                
             }
             UIView.performWithoutAnimation {
                 self.collectionView?.insertItems(at: indexPathCollect)
             }
         }
-    func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
-    }
+    
+      func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
+      }
     
 }
 

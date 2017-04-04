@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 
 private let reuseIdentifier = "Cell_SocialCollectionViewController"
+private let resueIdentifierForHeader = "newsResuseHeaderForSocial"
 
 class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDelegate  {
     var refreshView : RefreshView!
@@ -55,7 +56,7 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
         // Register cell classes
         self.collectionView!.register(SocialCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         //register header
-        self.collectionView!.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "SectionHeader")
+        self.collectionView!.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: resueIdentifierForHeader)
         layout.headerReferenceSize = CGSize(width: 100, height: 100)
         
         // Do any additional setup after loading the view.
@@ -78,7 +79,14 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
                             self.layout.resetMaxHeight()
                             self.saveData = [SocialResponse]()
                         }
-                        self.saveData = data1
+                        if(page != 0){
+                            for key in 0..<data1.count{
+                                self.saveData.append(data1[key])
+                            }
+                        }
+                        if(page == 0){
+                            self.saveData = data1
+                        }
 //                        for item in data1 {
 //                            let data = SocialResponse(json: item)
 //                            if let dataUW = data {
@@ -144,7 +152,7 @@ class SocialCollectionViewController: BaseCollectionViewController, NewsLayoutDe
         refreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let sectionHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as! HeaderView
+        let sectionHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: resueIdentifierForHeader, for: indexPath) as! HeaderView
         if(nextPage == 1){
             sectionHeaderView.message = self.data?.message
         }
