@@ -31,8 +31,9 @@ class HeaderView: UICollectionReusableView {
         super.init(frame: frame)
         viewHeader = UIView(frame: frame)
         viewHeader.backgroundColor = UIColor.clear
+        viewHeader.translatesAutoresizingMaskIntoConstraints = false
         addSubview(viewHeader)
-        addConstrainView()
+        //addConstrainView()
         
         
     }

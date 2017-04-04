@@ -44,6 +44,12 @@ class NewsCollectionViewController: NewsPresent{
     }
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         refreshView.scrollViewDidScroll(scrollView)
+        let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
+        if bottomEdge >= scrollView.contentSize.height && !isLoading {
+            updateLoadmoreView(showLoadmore: true)
+            //loadData(page: nextPage, refresh: nil)
+            self.loadAndUpdateDataView(page: nextPage, refresh: nil)
+        }
     }
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         refreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
@@ -77,11 +83,11 @@ class NewsCollectionViewController: NewsPresent{
         if saveData.count > 0 {
             cell.newsResponse = saveData[indexPath.item]
             oldIndex = saveData.count
-            if indexPath.item >= saveData.count - loadMoreOfset && !isLoading && !refreshView.isRefreshing {
-                    updateLoadmoreView(showLoadmore: true)
-                 //   loadData(nextPage, refresh: nil)
-                self.loadAndUpdateDataView(page: nextPage, refresh: nil)
-            }
+//            if indexPath.item >= saveData.count - loadMoreOfset && !isLoading && !refreshView.isRefreshing {
+//                    updateLoadmoreView(showLoadmore: true)
+//                 //   loadData(nextPage, refresh: nil)
+//                self.loadAndUpdateDataView(page: nextPage, refresh: nil)
+//            }
         }
         return cell
     }
@@ -158,7 +164,7 @@ class NewsCollectionViewController: NewsPresent{
                 }
             }
             self.updateLoadmoreView(showLoadmore: false)
-            
+            self.isLoading = false
         }
         
       }

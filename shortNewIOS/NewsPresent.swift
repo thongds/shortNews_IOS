@@ -32,6 +32,7 @@ class NewsPresent : BaseCollectionViewController{
     }
     
     func progressLoadData(page : Int,refresh : RefreshView?,callback : @escaping (_ isSuccess :Bool,_ page :Int) -> Void){
+        isLoading = true
         let pageParam = page;
         service.getHomeNews(page: pageParam){
             (isSuccess,data) in

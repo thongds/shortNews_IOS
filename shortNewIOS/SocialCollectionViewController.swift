@@ -82,7 +82,14 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
 //            updateLoadmoreView(showLoadmore: true)
 //            loadData(page: nextPage, refresh: nil)
 //        }
-      
+        
+        let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
+        if bottomEdge >= scrollView.contentSize.height && !isLoading {
+            updateLoadmoreView(showLoadmore: true)
+            //loadData(page: nextPage, refresh: nil)
+            self.loadAndUpdateDataView(page: nextPage, refresh: nil)
+        }
+        
         refreshView.scrollViewDidScroll(scrollView)
     }
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -159,6 +166,7 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
     func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
         self.loadDataProcess(page: page, refresh: refresh){
             (isSuccess,page) in
+            self.isLoading = false
             if(isSuccess){
                 if page == 0 {
                     UIView.performWithoutAnimation {
@@ -206,12 +214,13 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
             cell.fanPageName.preferredMaxLayoutWidth = Contraint.logoWidth.rawValue
             cell.titleText.numberOfLines = 0
             cell.titleText.preferredMaxLayoutWidth = leftWidth
-            
-            if indexPath.item >= saveData.count - 1 && !isLoading && !refreshView.isRefreshing {
-                updateLoadmoreView(showLoadmore: true)
-                //loadData(page: nextPage, refresh: nil)
-                self.loadAndUpdateDataView(page: nextPage, refresh: nil)
-            }
+//            if indexPath.item >= saveData.count - 1 && !isLoading && !refreshView.isRefreshing  {
+//                print(saveData.count)
+//                print(indexPath.item)
+//                updateLoadmoreView(showLoadmore: true)
+//                //loadData(page: nextPage, refresh: nil)
+//                self.loadAndUpdateDataView(page: nextPage, refresh: nil)
+//            }
         }
         return cell
     }
