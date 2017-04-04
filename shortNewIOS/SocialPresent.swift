@@ -53,7 +53,7 @@ class SocialPresent : BaseCollectionViewController {
                 if linkImage.count > 0 {
                     if let social_content_type_id = data.social_content_type_id {
                         //let linkImageIndex = social_content_type_id == 1 ? linkImage[0] : linkImage[1]
-                        if social_content_type_id == 0 {
+                        if social_content_type_id == ContentTypeEnum.YOUTUBE.rawValue {
                             return linkImage[0]
                         }
                     }
