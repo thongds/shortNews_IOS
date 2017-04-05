@@ -18,6 +18,7 @@ class SocialPresent : BaseCollectionViewController {
     
     func loadDataProcess(page : Int,refresh : RefreshView?,callback : @escaping(Bool, Int)->Void){
         isLoading = true;
+        self.setState(isLoading: self.isLoading)
         service.getHomeSocial(page: page) { (isSuccess, data) in
             
             if(isSuccess){

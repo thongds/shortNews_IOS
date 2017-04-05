@@ -141,9 +141,10 @@ class NewsCollectionViewController: NewsPresent{
                 
             }
             UIView.performWithoutAnimation {
-                DispatchQueue.main.async(execute: {
-                    self.collectionView?.insertItems(at: indexPathCollect)
-                })
+                 self.collectionView?.insertItems(at: indexPathCollect)
+//                DispatchQueue.main.async(execute: {
+//                   
+//                })
             }
         
         }
@@ -164,13 +165,14 @@ class NewsCollectionViewController: NewsPresent{
             }else{
                 self.showAlert()
                 if self.saveData.count == 0 {
-                    self.setState(isLoading: self.isLoading)
+                    //self.setState(isLoading: self.isLoading)
                 }
             }
             
             if refresh != nil{
                 refresh?.endRefreshing()
             }
+            self.setState(isLoading: self.isLoading)
             self.updateLoadmoreView(showLoadmore: false)
         }
         

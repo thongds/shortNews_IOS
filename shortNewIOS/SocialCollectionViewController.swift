@@ -59,20 +59,18 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
     }
       
     func insertIntoCollection(_ page : Int){
-      
-        layout.deleteCache()
-        print("saveData count \(saveData.count)")
+        self.layout.deleteCache()
+        print("saveData count \(self.saveData.count)")
         var indexPathCollect = [IndexPath]()
-        for i in oldIndex..<saveData.count{
+        for i in self.oldIndex..<self.saveData.count{
             let indexPath = IndexPath(item: i, section: 0)
             indexPathCollect.append(indexPath)
         }
         UIView.performWithoutAnimation {
-            DispatchQueue.main.async(execute: {
-             self.collectionView?.insertItems(at: indexPathCollect)
-            })
-            
+            self.collectionView?.insertItems(at: indexPathCollect)
         }
+
+
    }
     
     override func didReceiveMemoryWarning() {
@@ -189,7 +187,7 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
                 refresh?.endRefreshing()
             }
             self.updateLoadmoreView(showLoadmore: false)
-            
+            self.setState(isLoading: self.isLoading)    
         }
         
     }
