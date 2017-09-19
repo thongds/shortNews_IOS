@@ -144,7 +144,8 @@ class SocialCollectionViewController: SocialPresent, NewsLayoutDelegate  {
             if showLoadmore {
                 let indicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
                 indicator.color = UIColor.white
-                loadMoreView = LoadMoreView(frame:  CGRect(x: 0, y:  (collectionView?.contentSize.height)!, width: (collectionView?.frame.width)! , height: loadMoreHeight), scrollView: collectionView!)
+//                loadMoreView = LoadMoreView(frame:  CGRect(x: 0, y:  (collectionView?.contentSize.height)!, width: (collectionView?.frame.width)! , height: loadMoreHeight), scrollView: collectionView!)
+                
                 loadMoreView?.translatesAutoresizingMaskIntoConstraints = false
                 let indicatorWidth : CGFloat = 30
                 indicator.frame = CGRect(x: (loadMoreView?.frame.width)!/2-indicatorWidth/2, y: (loadMoreView?.frame.height)!/2 - indicatorWidth/2, width: indicatorWidth, height: indicatorWidth)

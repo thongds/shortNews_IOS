@@ -29,7 +29,7 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         
         let headerView = UIView()
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.backgroundColor = UIColor.red
+        headerView.backgroundColor = lightColor
          //custome header view
         
         leftBar.translatesAutoresizingMaskIntoConstraints = false
@@ -44,15 +44,15 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         rightBar.text = "Mạng Xã Hội"
         rightBar.textColor = UIColor.white
         
-        headerView.addSubview(leftBar)
-        headerView.addSubview(rightBar)
+        //headerView.addSubview(leftBar)
+        //headerView.addSubview(rightBar)
         
         let headerBarViews = ["headerView": headerView,"leftBar" : leftBar,"rightBar" : rightBar]
         let metrict = ["leftBarWidth" : view.frame.width/2]
-        
+        /*
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[leftBar]|", options: [], metrics: nil, views: headerBarViews))
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[leftBar(==leftBarWidth)][rightBar]|", options: [.alignAllTop,.alignAllBottom], metrics: metrict, views: headerBarViews))
-       
+       */
         
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
         let navigationBarHeight = (navigationController?.navigationBar.frame.height)! + statusBarHeight - CGFloat(5)
@@ -68,7 +68,7 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         let views = ["view" : view,"scrollView" : scrollView,"headerView": headerView]
         let metric = ["navigationBarHeight":navigationBarHeight,"statusBarHeight": statusBarHeight]
         
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[headerView(==navigationBarHeight)]", options: [], metrics: metric, views: views))
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[headerView(==statusBarHeight)]", options: [], metrics: metric, views: views))
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[headerView]|", options: [], metrics: metric, views: views))
        
         
@@ -78,11 +78,11 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         //let newCollectionView = NewsViewController()
         addCollectionViewController(collectionView: newCollectionView)
         let socialCollectionView = SocialCollectionViewController(collectionViewLayout: NewsCollectionViewLayout())
-        addCollectionViewController(collectionView: socialCollectionView)
+        //addCollectionViewController(collectionView: socialCollectionView)
         let scrollViews = ["scrollView" : scrollView,"newCollectionView" : newCollectionView.view,"socialCollectionView":socialCollectionView.view]
         
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[newCollectionView(==scrollView)]|", options: [], metrics: nil, views: scrollViews))
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[newCollectionView(==scrollView)][socialCollectionView(==scrollView)]|", options: [.alignAllTop,.alignAllBottom], metrics: nil, views: scrollViews))
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[newCollectionView(==scrollView)]|", options: [.alignAllTop,.alignAllBottom], metrics: nil, views: scrollViews))
        
         //click event
         
@@ -97,6 +97,7 @@ class MainViewController: UIViewController,UIScrollViewDelegate {
         tapGestureLeft.isLeft = true
         leftBar.addGestureRecognizer(tapGestureLeft)
         //leftBar.target(forAction: #selector(self.tapGest), withSender: Any?.self)
+       // headerView.isHidden = true
     }
  
     func tapGest(gestureRecognizer: MyTapGestureRecognizer)  {

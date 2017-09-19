@@ -19,7 +19,7 @@ class NewsCollectionViewController: NewsPresent{
      override func viewDidLoad() {
         super.viewDidLoad()
         // set event callback
-        setReloadDelegate(delegate: self)
+        //setReloadDelegate(delegate: self)
         refreshView.delegate = self
         //load data at first time
         self.loadAndUpdateDataView(page: nextPage, refresh: nil)
@@ -27,12 +27,12 @@ class NewsCollectionViewController: NewsPresent{
         layout.space = 10
         layout.delegate = self
        
-        collectionView?.showsVerticalScrollIndicator = true
+        collectionView?.showsVerticalScrollIndicator = false
         collectionView?.isPagingEnabled = false
         self.collectionView!.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: resueIdentifierForHeader)
         layout.headerReferenceSize = CGSize(width: 100, height: 100)
-    }
+      }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
@@ -42,15 +42,15 @@ class NewsCollectionViewController: NewsPresent{
         }
         return sectionHeaderView
     }
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        refreshView.scrollViewDidScroll(scrollView)
-        let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
-        if bottomEdge >= scrollView.contentSize.height && !isLoading {
-            updateLoadmoreView(showLoadmore: true)
-            //loadData(page: nextPage, refresh: nil)
-            self.loadAndUpdateDataView(page: nextPage, refresh: nil)
-        }
-    }
+//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        refreshView.scrollViewDidScroll(scrollView)
+//        let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
+//        if bottomEdge >= scrollView.contentSize.height && !isLoading {
+//            updateLoadmoreView(showLoadmore: true)
+//            //loadData(page: nextPage, refresh: nil)
+//            self.loadAndUpdateDataView(page: nextPage, refresh: nil)
+//        }
+//    }
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         refreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
@@ -105,79 +105,33 @@ class NewsCollectionViewController: NewsPresent{
         }
     }
     
-    func updateLoadmoreView(showLoadmore : Bool){
-            UIView.performWithoutAnimation {
-                let loadMoreHeight : CGFloat = 40
-                if showLoadmore {
-                    let indicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-                    indicator.color = UIColor.white
-                    loadMoreView = LoadMoreView(frame:  CGRect(x: 0, y:  (collectionView?.contentSize.height)!, width: (collectionView?.frame.width)! , height: loadMoreHeight), scrollView: collectionView!)
-                    loadMoreView?.translatesAutoresizingMaskIntoConstraints = false
-                    let indicatorWidth : CGFloat = 30
-                    indicator.frame = CGRect(x: (loadMoreView?.frame.width)!/2-indicatorWidth/2, y: (loadMoreView?.frame.height)!/2 - indicatorWidth/2, width: indicatorWidth, height: indicatorWidth)
-                    loadMoreView?.addSubview(indicator)
-                    loadMoreView?.backgroundColor = UIColor.clear
-                    collectionView?.contentInset.bottom += loadMoreHeight
-                    collectionView?.insertSubview(loadMoreView!, at: 0)
-    
-                    indicator.startAnimating()
-                }else{
-                    if let LoadMoreView = loadMoreView {
-                        LoadMoreView.removeFromSuperview()
-                        self.loadMoreView = nil
-                        collectionView?.contentInset.bottom -= loadMoreHeight
-                    }
-                }
-    
-            }
-        }
-    
-      func insertIntoCollection(_ page : Int){
-            layout.deleteCache()
-            var indexPathCollect = [IndexPath]()
-            for i in oldIndex..<saveData.count{
-                let indexPath = IndexPath(item: i, section: 0)
-                indexPathCollect.append(indexPath)
-                
-            }
-            UIView.performWithoutAnimation {
-                 self.collectionView?.insertItems(at: indexPathCollect)
-//                DispatchQueue.main.async(execute: {
-//                   
-//                })
-            }
+//    func updateLoadmoreView(showLoadmore : Bool){
+//            UIView.performWithoutAnimation {
+//                let loadMoreHeight : CGFloat = 40
+//                if showLoadmore {
+//                    let indicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+//                    indicator.color = UIColor.white
+////                    loadMoreView = LoadMoreView(frame:  CGRect(x: 0, y:  (collectionView?.contentSize.height)!, width: (collectionView?.frame.width)! , height: loadMoreHeight), scrollView: collectionView!)
+//                    loadMoreView?.translatesAutoresizingMaskIntoConstraints = false
+//                    let indicatorWidth : CGFloat = 30
+//                    indicator.frame = CGRect(x: (loadMoreView?.frame.width)!/2-indicatorWidth/2, y: (loadMoreView?.frame.height)!/2 - indicatorWidth/2, width: indicatorWidth, height: indicatorWidth)
+//                    loadMoreView?.addSubview(indicator)
+//                    loadMoreView?.backgroundColor = UIColor.clear
+//                    collectionView?.contentInset.bottom += loadMoreHeight
+//                    collectionView?.insertSubview(loadMoreView!, at: 0)
+//    
+//                    indicator.startAnimating()
+//                }else{
+//                    if let LoadMoreView = loadMoreView {
+//                        LoadMoreView.removeFromSuperview()
+//                        self.loadMoreView = nil
+//                        collectionView?.contentInset.bottom -= loadMoreHeight
+//                    }
+//                }
+//    
+//            }
+//        }
         
-        }
-    
-      func loadAndUpdateDataView(page : Int,refresh : RefreshView?){
-        self.progressLoadData(page: page, refresh: refresh){
-            (isSuccess,page) in
-            self.isLoading = false
-            if(isSuccess){
-                if page == 0 {
-                    UIView.performWithoutAnimation {
-                        self.collectionView?.reloadData()
-                    }
-                    
-                }else{
-                    self.insertIntoCollection(page)
-                }
-            }else{
-                self.showAlert()
-                if self.saveData.count == 0 {
-                    //self.setState(isLoading: self.isLoading)
-                }
-            }
-            
-            if refresh != nil{
-                refresh?.endRefreshing()
-            }
-            self.setState(isLoading: self.isLoading)
-            self.updateLoadmoreView(showLoadmore: false)
-        }
-        
-      }
-    
 }
 
 extension NewsCollectionViewController :  NewsLayoutDelegate {
