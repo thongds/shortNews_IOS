@@ -23,7 +23,7 @@ class LoadingPage: UIView {
         activityIndicatorView = NVActivityIndicatorView(frame: frame)
         activityIndicatorView?.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         activityIndicatorView?.type = .ballRotateChase
-        activityIndicatorView?.color = UIColor.green
+        activityIndicatorView?.color = UIColor.white
         reloadImage.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         reloadImage.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.loadData))

@@ -22,6 +22,7 @@ class NewsCollectionViewController: NewsPresent{
         //setReloadDelegate(delegate: self)
         refreshView.delegate = self
         //load data at first time
+        self.loadingView?.isLoadingData(isLoading: true)
         self.loadAndUpdateDataView(page: nextPage, refresh: nil)
         layout = collectionViewLayout as! NewsCollectionViewLayout
         layout.space = 10

@@ -36,6 +36,7 @@ class NewsPresent : UICollectionViewController{
         refreshView = RefreshView(frame:  CGRect(x: 0, y: -refreshViewHeight, width: (collectionView?.frame.width)!, height: refreshViewHeight), scrollView: collectionView!)
         refreshView.translatesAutoresizingMaskIntoConstraints = false
         loadingView = LoadingPage(frame: CGRect(x: (view.frame.width - loadingHeight)/2, y: (view.frame.height - loadingHeight)/2, width: loadingHeight, height: loadingHeight))
+        view.addSubview(loadingView!)
         loadingView?.loadingPageDelegate = self
         collectionView!.insertSubview(refreshView, at: 0)
     }
@@ -94,6 +95,7 @@ class NewsPresent : UICollectionViewController{
             (isSuccess,page) in
             self.isLoading = false
             if(isSuccess){
+                self.loadingView?.isHidden = true
                 if page == 0 {
                     UIView.performWithoutAnimation {
                         self.collectionView?.reloadData()
@@ -106,7 +108,7 @@ class NewsPresent : UICollectionViewController{
             }else{
                 self.showAlert()
                 if self.saveData.count == 0 {
-                    //self.setState(isLoading: self.isLoading)
+                    self.loadingView?.isLoadingData(isLoading: false)
                 }
             }
             
@@ -156,7 +158,7 @@ extension NewsPresent : ClickNewsCellEvent{
 }
 extension NewsPresent : LoadDataDelegate{
     func clickLoadData(){
-        //callHistoryApi(isRefresh: false)
+        self.loadAndUpdateDataView(page: 0, refresh: nil)
     }
 }
 
